@@ -1,4 +1,4 @@
-#include "../include/gameOfLife.hpp"
+#include "../include/gameOfLife.h"
 
 GOL_SURFACE_T GOL_GetLifeSurface(){
 	GOL_SURFACE_T surface = (GOL_SURFACE_T)calloc(GOL_SURFACE_Y,sizeof(bool*));
