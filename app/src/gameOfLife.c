@@ -1,25 +1,36 @@
 #include "../include/gameOfLife.h"
 
+GOL_SURFACE_SCALE GOL_SurfaceScale = {
+    GOL_SURFACE_X,
+    GOL_SURFACE_Y,
+    GOL_LIFE_SCALE	
+};
+
 GOL_SURFACE_T GOL_GetLifeSurface(){
-	GOL_SURFACE_T surface = (GOL_SURFACE_T)calloc(GOL_SURFACE_Y,sizeof(bool*));
-	if(!surface) exit(0);
-	for(int i=0; i < GOL_SURFACE_Y; i++){
-		surface[i] = (bool*)calloc(GOL_SURFACE_X, sizeof(bool));
-		if(!surface[i])		
+	GOL_SURFACE_T surface = (GOL_SURFACE_T)calloc(GOL_SurfaceScale.surfaceY,sizeof(bool*));
+	if(!surface){
+		SDL_Quit();
+		exit(0); 
+	}
+	for(int i=0; i < GOL_SurfaceScale.surfaceY; i++){
+		surface[i] = (bool*)calloc(GOL_SurfaceScale.surfaceX, sizeof(bool));
+		if(!surface[i]){		
+			SDL_Quit();
 			exit(0);
+		}
 	}
 	return surface;
 }
 void GOL_ClearSurface(GOL_SURFACE_T surface){
-	for(int i = 0;i<GOL_SURFACE_Y;i++)
-		for(int j = 0; j < GOL_SURFACE_X; j++)
+	for(int i = 0;i<GOL_SurfaceScale.surfaceY;i++)
+		for(int j = 0; j < GOL_SurfaceScale.surfaceX; j++)
 			surface[i][j] = false;
 }
 
 void GOL_RenderSurface(SDL_Renderer *renderer,GOL_SURFACE_T surface){
 	SDL_SetRenderDrawColor(renderer,255,255,255,255);
-	for(int i = 0; i < GOL_SURFACE_Y; i++)
-		for(int j = 0; j < GOL_SURFACE_X; j++)
+	for(int i = 0; i < GOL_SurfaceScale.surfaceY; i++)
+		for(int j = 0; j < GOL_SurfaceScale.surfaceX; j++)
 			if(surface[i][j] == GOL_LIFE )
 				SDL_RenderDrawPoint(renderer,j,i);
 
@@ -28,24 +39,23 @@ void GOL_RenderSurface(SDL_Renderer *renderer,GOL_SURFACE_T surface){
 
 void GOL_RenderSurface_rnd(SDL_Renderer *renderer, GOL_SURFACE_T surface){
 	SDL_SetRenderDrawColor(renderer,255,255,255,255);
-	for(int i = 0; i < GOL_SURFACE_Y; i++)
-		for(int j = 0; j < GOL_SURFACE_X; j++){
+	for(int i = 0; i < GOL_SurfaceScale.surfaceY; i++)
+		for(int j = 0; j < GOL_SurfaceScale.surfaceX; j++){
 			bool live = rand() % 9 == 0 ? true: false;
-			if(live)
-				surface[i][j] = true;
+			live ? surface[i][j] = GOL_LIFE : 0 ;
 		}
 	SDL_RenderPresent(renderer);
 }
 void GOL_NextSimulationMove(GOL_SURFACE_T surface_present, GOL_SURFACE_T surface_future){	
-	for(int i = 0; i < GOL_SURFACE_Y; i++){
-		for(int j = 0; j < GOL_SURFACE_X; j++){
+	for(int i = 0; i < GOL_SurfaceScale.surfaceY; i++){
+		for(int j = 0; j < GOL_SurfaceScale.surfaceX; j++){
 			int s1 = i - 1;
 			int s2 = j - 1;
 			short livingNeighbours = 0;
 			bool thisCell = surface_present[i][j];
 			for(int h = s1; h < s1 + 3; h++)
 				for(int w = s2; w < s2 + 3; w++)
-					if(((h >= 0 && h < GOL_SURFACE_Y) && (w >= 0 && w < GOL_SURFACE_X )) && !( h == i && w == j))
+					if(((h >= 0 && h < GOL_SurfaceScale.surfaceY) && (w >= 0 && w < GOL_SurfaceScale.surfaceX )) && !( h == i && w == j))
 						if(surface_present[h][w] == GOL_LIFE)
 							livingNeighbours++;
 
@@ -61,4 +71,5 @@ void GOL_NextSimulationMove(GOL_SURFACE_T surface_present, GOL_SURFACE_T surface
 	}
 	GOL_ClearSurface(surface_present);
 }
+
 
