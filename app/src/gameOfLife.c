@@ -28,7 +28,7 @@ void GOL_ClearSurface(GOL_SURFACE_T surface){
 }
 
 void GOL_RenderSurface(SDL_Renderer *renderer,GOL_SURFACE_T surface){
-	SDL_SetRenderDrawColor(renderer,255,255,255,255);
+	SDL_SetRenderDrawColor(renderer,16,14,0,255);
 	for(int i = 0; i < GOL_SurfaceScale.surfaceY; i++)
 		for(int j = 0; j < GOL_SurfaceScale.surfaceX; j++)
 			if(surface[i][j] == GOL_LIFE )
@@ -38,10 +38,11 @@ void GOL_RenderSurface(SDL_Renderer *renderer,GOL_SURFACE_T surface){
 }
 
 void GOL_RenderSurface_rnd(SDL_Renderer *renderer, GOL_SURFACE_T surface){
-	SDL_SetRenderDrawColor(renderer,255,255,255,255);
+	srand (time (NULL));
+	SDL_SetRenderDrawColor(renderer,46,14,0,255);
 	for(int i = 0; i < GOL_SurfaceScale.surfaceY; i++)
-		for(int j = 0; j < GOL_SurfaceScale.surfaceX; j++){
-			bool live = rand() % 9 == 0 ? true: false;
+		for(int j = 0; j < GOL_SurfaceScale.surfaceX; j++){    
+			bool live = rand() % 10 == 0 ? true: false;
 			live ? surface[i][j] = GOL_LIFE : 0 ;
 		}
 	SDL_RenderPresent(renderer);
