@@ -35,7 +35,7 @@ void GOL_ClearSurface(GOL_SURFACE_T surface){
 }
 
 void GOL_RenderSurface(SDL_Renderer *renderer,GOL_SURFACE_T surface){
-	SDL_SetRenderDrawColor(renderer,16,14,0,255);
+	SDL_SetRenderDrawColor(renderer,1,1,0,255);
 	for(int i = 0; i < GOL_SurfaceScale.surfaceY; i++)
 		for(int j = 0; j < GOL_SurfaceScale.surfaceX; j++)
 			if(surface[i][j] == GOL_LIFE )

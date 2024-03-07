@@ -19,7 +19,7 @@ SDL_Surface* GOL_GetSurfaceFromText(SDL_Renderer *renderer,char *GOL_Text,int si
         TTF_CloseFont(pixel);
         return NULL;
     }
-    SDL_Color white = {255, 255, 255, 0};
+    SDL_Color white = {235, 235, 235, 0};
     SDL_Surface *surface = TTF_RenderText_Solid(pixel,GOL_Text,white);
     if (!surface) {
         printf("Failed to create surface: %s\n", TTF_GetError());
@@ -55,9 +55,15 @@ void GOL_UserInterface(SDL_Renderer *renderer){
     SDL_Surface* surfaceHeading =  GOL_GetSurfaceFromText(renderer,"Conways Game of life",20);
     SDL_Surface* surfaceScale = GOL_GetSurfaceFromText(renderer,"Life Scale (press the UP or DOWN arrow)",40);
     SDL_Surface* surfaceInstruction =  GOL_GetSurfaceFromText(renderer,"Press 'Space' to Start the simulation",40);
+
+    int instructionBlinker=0, blinkerDuration = 35;
+
     while (onMenu) {
         while (SDL_PollEvent(&GOL_GlobalEvent)) {
             if (GOL_UI_IfCloseWindow(GOL_GlobalEvent)) {
+                SDL_FreeSurface(surfaceHeading);
+                SDL_FreeSurface(surfaceScale);
+                SDL_FreeSurface(surfaceInstruction);
                 SDL_Quit();
                 exit(0);
             }
@@ -81,7 +87,7 @@ void GOL_UserInterface(SDL_Renderer *renderer){
             }
         }
 
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 225);
+        SDL_SetRenderDrawColor(renderer, 21, 21, 21, 225);
         SDL_RenderClear(renderer);
         char scaleInChar[3];  
         sprintf(scaleInChar, "%d", (int)GOL_SurfaceScale.lifeScale);
@@ -90,9 +96,13 @@ void GOL_UserInterface(SDL_Renderer *renderer){
         SDL_SetRenderDrawColor(renderer, 90, 90, 90, 255);
         
         GOL_RenderText(renderer,surfaceHeading,&Heading);
-        GOL_RenderText(renderer,surfaceInstruction,&instruction);
-        GOL_RenderText(renderer,surfaceUserScale,&userScale);
         GOL_RenderText(renderer,surfaceScale,&scale);
+        GOL_RenderText(renderer,surfaceUserScale,&userScale);
+
+        if(instructionBlinker++ <= blinkerDuration )
+            GOL_RenderText(renderer,surfaceInstruction,&instruction);
+        else if(instructionBlinker == blinkerDuration*2)
+            instructionBlinker = 0;
 
         SDL_RenderPresent(renderer);
         SDL_Delay(1000 / 60);

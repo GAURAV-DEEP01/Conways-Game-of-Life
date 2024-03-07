@@ -42,7 +42,7 @@ int main(int argc, char* argv[]){
                 }
             }
         }
-        SDL_SetRenderDrawColor(renderer,1,122,11,255);
+        SDL_SetRenderDrawColor(renderer,132,245,66,255);
         SDL_RenderClear(renderer);
         SDL_RenderSetScale(renderer,GOL_SurfaceScale.lifeScale,GOL_SurfaceScale.lifeScale);
         GOL_RenderSurface(renderer,surface_present);
