@@ -10,6 +10,7 @@
 
 typedef bool** GOL_SURFACE_T;
 extern GOL_SURFACE_T GOL_GetLifeSurface();
+extern void GOL_FreeLifeSurface(GOL_SURFACE_T surface);
 extern void GOL_ClearSurface(GOL_SURFACE_T surface);
 extern void GOL_RenderSurface(SDL_Renderer *renderer,GOL_SURFACE_T surface);
 extern void GOL_RenderSurface_rnd(SDL_Renderer *renderer,GOL_SURFACE_T surface);

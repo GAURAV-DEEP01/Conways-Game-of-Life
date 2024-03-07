@@ -42,7 +42,6 @@ void GOL_RenderText(SDL_Renderer *renderer, SDL_Surface *surface, SDL_Rect *rect
     SDL_DestroyTexture(texture);
 }
 
-// all this for the text to render and the number to change :) great!
 void GOL_UserInterface(SDL_Renderer *renderer){
     bool onMenu = true ;
 
@@ -69,6 +68,8 @@ void GOL_UserInterface(SDL_Renderer *renderer){
                             GOL_SurfaceScale.lifeScale--;
                         break;
                     case SDLK_SPACE:
+                        GOL_SurfaceScale.surfaceX = DM.w / GOL_SurfaceScale.lifeScale; 
+                        GOL_SurfaceScale.surfaceY = DM.h / GOL_SurfaceScale.lifeScale;
                         onMenu = false;
                         break;
                 }

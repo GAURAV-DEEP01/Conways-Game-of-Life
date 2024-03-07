@@ -22,9 +22,6 @@ int main(int argc, char* argv[]){
     // UI 
     GOL_UserInterface(renderer);
 
-    GOL_SurfaceScale.surfaceX = DM.w / GOL_SurfaceScale.lifeScale; 
-    GOL_SurfaceScale.surfaceY = DM.h / GOL_SurfaceScale.lifeScale; 
-
     GOL_SURFACE_T surface_present = GOL_GetLifeSurface();
     GOL_SURFACE_T surface_future = GOL_GetLifeSurface();
     GOL_RenderSurface_rnd(renderer,surface_present);
@@ -36,12 +33,12 @@ int main(int argc, char* argv[]){
             if(GOL_GlobalEvent.key.type == SDL_KEYDOWN){
                 if(GOL_GlobalEvent.key.keysym.sym == SDLK_ESCAPE){
                     SDL_RenderSetScale(renderer,1,1);
-                    surface_present = GOL_GetLifeSurface();
-                    surface_future = GOL_GetLifeSurface();
-
+                    GOL_FreeLifeSurface(surface_present);
+                    GOL_FreeLifeSurface(surface_future);
                     GOL_UserInterface(renderer); 
+                    surface_present = GOL_GetLifeSurface();
+                    surface_future = GOL_GetLifeSurface();  
                     GOL_RenderSurface_rnd(renderer,surface_present);
-                    // printf("pressed the escape");
                 }
             }
         }
@@ -55,6 +52,8 @@ int main(int argc, char* argv[]){
         surface_future = surface_aux;
         SDL_Delay(100);    
     }
+    GOL_FreeLifeSurface(surface_present);
+    GOL_FreeLifeSurface(surface_future);
     SDL_Quit();
     return 0;
 }

@@ -21,6 +21,13 @@ GOL_SURFACE_T GOL_GetLifeSurface(){
 	}
 	return surface;
 }
+
+void GOL_FreeLifeSurface(GOL_SURFACE_T surface){
+	for(int i = 0;i<GOL_SurfaceScale.surfaceY;i++)
+		free(surface[i]);
+	free(surface);
+}
+
 void GOL_ClearSurface(GOL_SURFACE_T surface){
 	for(int i = 0;i<GOL_SurfaceScale.surfaceY;i++)
 		for(int j = 0; j < GOL_SurfaceScale.surfaceX; j++)
