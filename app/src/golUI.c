@@ -45,11 +45,16 @@ void GOL_RenderText(SDL_Renderer *renderer, SDL_Surface *surface, SDL_Rect *rect
 void GOL_UserInterface(SDL_Renderer *renderer){
     bool onMenu = true ;
 
-    SDL_Rect Heading, userScale, instruction;
-
+    SDL_Rect Heading, userScale, instruction ,scale;
+    Heading.x = userScale.x = instruction.x = scale.x = 20;
+    Heading.y = 100;
+    scale.y = 340;
+    userScale.y = 400;
+    instruction.y = 550;
+        
     SDL_Surface* surfaceHeading =  GOL_GetSurfaceFromText(renderer,"Conways Game of life",20);
+    SDL_Surface* surfaceScale = GOL_GetSurfaceFromText(renderer,"Life Scale (press the UP or DOWN arrow)",40);
     SDL_Surface* surfaceInstruction =  GOL_GetSurfaceFromText(renderer,"Press 'Space' to Start the simulation",40);
-
     while (onMenu) {
         while (SDL_PollEvent(&GOL_GlobalEvent)) {
             if (GOL_UI_IfCloseWindow(GOL_GlobalEvent)) {
@@ -83,14 +88,11 @@ void GOL_UserInterface(SDL_Renderer *renderer){
         SDL_Surface* surfaceUserScale = GOL_GetSurfaceFromText(renderer,scaleInChar,40);      
         
         SDL_SetRenderDrawColor(renderer, 90, 90, 90, 255);
-        Heading.x = userScale.x = instruction.x = 20;
-        Heading.y = 200;
-        userScale.y = 350;
-        instruction.y = 450;
         
         GOL_RenderText(renderer,surfaceHeading,&Heading);
         GOL_RenderText(renderer,surfaceInstruction,&instruction);
         GOL_RenderText(renderer,surfaceUserScale,&userScale);
+        GOL_RenderText(renderer,surfaceScale,&scale);
 
         SDL_RenderPresent(renderer);
         SDL_Delay(1000 / 60);
@@ -98,4 +100,5 @@ void GOL_UserInterface(SDL_Renderer *renderer){
     }
     SDL_FreeSurface(surfaceHeading);
     SDL_FreeSurface(surfaceInstruction);
+    SDL_FreeSurface(surfaceScale);
 }
