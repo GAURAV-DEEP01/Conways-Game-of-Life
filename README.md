@@ -25,6 +25,7 @@ This project is a implementation of Conway's Game of Life in C. The Game of Life
 <a href="assets/readme/gameOfLife.zip" download>
    gameOfLife.zip
 </a>
+
 - Download, extract and run the main.exe file 
 - This might throw out some warnings! 
 
