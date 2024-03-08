@@ -50,7 +50,7 @@ int main(int argc, char* argv[]){
         GOL_SURFACE_T surface_aux = surface_present;
         surface_present = surface_future;
         surface_future = surface_aux;
-        SDL_Delay(100);    
+        SDL_Delay(150);    
     }
     GOL_FreeLifeSurface(surface_present);
     GOL_FreeLifeSurface(surface_future);
